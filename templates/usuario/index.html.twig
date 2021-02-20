@@ -1,0 +1,48 @@
+{# empty Twig template #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Usuarios{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <div class="col-10">
+        {% for message in app.flashes('notice') %}
+                <div class="flash-notice alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Email</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellidos</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">foto</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for usuario in usuarios %}
+          <tr>
+            <th scope="row"> {{ usuario.id }} </th>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.nombre }}</td>
+            <td>{{ usuario.apellidos }}</td>
+            <td>{{ usuario.tlf }}</td>
+            <td> <img width="30px" src="{{ asset('/images/') }}{{ usuario.foto }}"> </td>
+            <td> <a class="btn btn-danger" href='{{ path('borrar_usuario', {id:usuario.id}) }}'>Borrar usuario</a> </td>
+          </tr>
+          {% else %}
+            <th scope="row">No hay  ningún usuario</th>
+        {% endfor %}
+        </tbody>
+      </table>
+    <div style="clear:both"></div>
+    {% if app.user %}
+        <div class="container-fluid">
+             <a class="btn btn-primary" href="{{ path('registrar') }}">Insertar Usuario</a>
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}

@@ -20,7 +20,10 @@ class ClientesController extends AbstractController
      * @Route("/clientes", name="inicio")
      */
     public function index(AuthenticationUtils $authenticationUtils): Response
-    {
+    {   
+        if(!$this->getUser()){
+            return $this->redirectToRoute('app_login');
+        }
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
         $repositorio=$this->getDoctrine()->getRepository(Cliente::class);
@@ -45,6 +48,10 @@ class ClientesController extends AbstractController
             $em=$this->getDoctrine()->getManager();
             $em->persist($cliente);
             $em->flush();
+            $this->addFlash(
+                'notice',
+                'El cliente ha sido insertado!'
+            );
             return $this->redirectToRoute('inicio');
         }
          return $this->render('clientes/insertar_cliente.html.twig', ['formulario'=>$form->createView()]);
@@ -64,7 +71,10 @@ class ClientesController extends AbstractController
         $em=$this->getDoctrine()->getManager();
         $em->remove($cliente);
         $em->flush();
-        
+        $this->addFlash(
+                'notice',
+                'El cliente ha sido borrado!'
+            );
         return $this->redirectToRoute('inicio');
     }
     /**
@@ -76,4 +86,5 @@ class ClientesController extends AbstractController
         $incidencias = $repositorio->findByIdCliente($cliente->getId());
         return $this->render('clientes/ver_cliente.html.twig', ['cliente' => $cliente, 'incidencias'=>$incidencias]);
     }
+    
 }

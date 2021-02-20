@@ -35,7 +35,19 @@ class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgra
         $this->_em->persist($user);
         $this->_em->flush();
     }
+    
+    public function removeIncidencias(Usuario $id){
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+           'DELETE
+            FROM App\Entity\Incidencia li 
+            WHERE li.usuario = :usuario'
+        )->setParameter('usuario', $id);
 
+        // returns an array of Product objects
+        return $query->getResult();
+    }
+    
     // /**
     //  * @return Usuario[] Returns an array of Usuario objects
     //  */

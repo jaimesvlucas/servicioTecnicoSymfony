@@ -14,6 +14,7 @@ use App\Entity\LineasIncidencia;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class IncidenciasController extends AbstractController
 {
@@ -42,6 +43,10 @@ class IncidenciasController extends AbstractController
             $em->flush();
             $repositorio=$this->getDoctrine()->getRepository(Incidencia::class);
             $incidencias = $repositorio->findByIdCliente($cliente->getId());
+            $this->addFlash(
+                'notice',
+                'La incidencia ha sido insertada!'
+            );
             return $this->render('clientes/ver_cliente.html.twig', ['cliente' => $cliente, 'incidencias'=>$incidencias]);
         }
          return $this->render('incidencias/insertar_incidencia.html.twig', ['formulario'=>$form->createView()]);
@@ -58,6 +63,10 @@ class IncidenciasController extends AbstractController
         $em->remove($incidencia);
         $em->flush();
         $incidencias = $repositorio->findByIdCliente($cliente->getId());
+        $this->addFlash(
+                'notice',
+                'La incidencia ha sido borrada!'
+            );
         return $this->render('clientes/ver_cliente.html.twig', ['cliente' => $cliente, 'incidencias'=>$incidencias]);
     }
     
@@ -69,5 +78,17 @@ class IncidenciasController extends AbstractController
         $repositorio=$this->getDoctrine()->getRepository(LineasIncidencia::class);
         $lineasIncidencias = $repositorio->findByIdincidencia($incidencia->getId());
         return $this->render('incidencias/ver_incidencia.html.twig', ['incidencia' => $incidencia, 'lineasIncidencias'=>$lineasIncidencias]);
+    }
+    
+    /**
+     * @Route("/incidencias", name="listar_incidencias")
+     */
+    public function index(AuthenticationUtils $authenticationUtils): Response
+    {   
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+        $repositorio=$this->getDoctrine()->getRepository(Incidencia::class);
+        $incidencias=$repositorio->findAll();
+        return $this->render('incidencias/index.html.twig', ['incidencias' => $incidencias ,'last_username' => $lastUsername, 'error' => $error]);
     }
 }

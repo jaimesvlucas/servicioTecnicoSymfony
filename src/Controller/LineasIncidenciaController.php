@@ -35,6 +35,10 @@ class LineasIncidenciaController extends AbstractController
             $em->flush();
             $repositorio=$this->getDoctrine()->getRepository(LineasIncidencia::class);
             $lineasIncidencias = $repositorio->findByIdincidencia($incidencia->getId());
+            $this->addFlash(
+                'notice',
+                'La linea de incidencia ha sido insertada!'
+            );
             return $this->render('incidencias/ver_incidencia.html.twig', ['incidencia' => $incidencia, 'lineasIncidencias'=>$lineasIncidencias]);
         }
          return $this->render('lineas_incidencia/insertar_lineaIncidencia.html.twig', ['formulario'=>$form->createView()]);
@@ -49,6 +53,10 @@ class LineasIncidenciaController extends AbstractController
         $em->flush();
         $repositorio=$this->getDoctrine()->getRepository(LineasIncidencia::class);
         $lineasIncidencias = $repositorio->findByIdincidencia($incidencia->getId());
+        $this->addFlash(
+                'notice',
+                'La linea de incidencia ha sido borrada!'
+            );
         return $this->render('incidencias/ver_incidencia.html.twig', ['incidencia' => $incidencia, 'lineasIncidencias'=>$lineasIncidencias]);
     }
     /**
@@ -73,6 +81,10 @@ class LineasIncidenciaController extends AbstractController
             $em->flush();
             $repositorio=$this->getDoctrine()->getRepository(LineasIncidencia::class);
             $lineasIncidencias = $repositorio->findByIdincidencia($lineaIncidencia->getIncidencia()->getId());
+            $this->addFlash(
+                'notice',
+                'La linea de incidencia ha sido editada!'
+            );
             return $this->render('incidencias/ver_incidencia.html.twig', ['incidencia' => $lineaIncidencia->getIncidencia(), 'lineasIncidencias'=>$lineasIncidencias]);
         }
          return $this->render('lineas_incidencia/insertar_lineaIncidencia.html.twig', ['formulario'=>$form->createView()]);

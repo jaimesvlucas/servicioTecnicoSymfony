@@ -37,6 +37,20 @@ class IncidenciaRepository extends ServiceEntityRepository
         return $query->getResult();
     }
     
+    public function findByIdUsuario(int $id)
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT i, c
+            FROM App\Entity\Incidencia i INNER JOIN i.usuario c
+            WHERE c.id = :id
+            ORDER BY i.fecha_creacion ASC'
+        )->setParameter('id', $id);
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
+    
     public function removeLineasIncidencias(Incidencia $id){
         $entityManager = $this->getEntityManager();
         $query = $entityManager->createQuery(

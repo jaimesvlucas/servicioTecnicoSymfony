@@ -5,7 +5,11 @@
 {% block body %}
     {{ parent() }}
     <div class="col-10">
-    
+        {% for message in app.flashes('notice') %}
+                <div class="flash-notice alert alert-success">
+                    {{ message }}
+                </div>
+        {% endfor %}
         <table class="table">
         <thead>
           <tr>
