@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% block body %}
+    {{ parent() }}
+    <div class="container">
+            <h1 class="h3 mb-3 font-weight-normal">Formulario de Registro</h1>
+            {{ form(form) }}
+        </div>
+{% endblock %}
+

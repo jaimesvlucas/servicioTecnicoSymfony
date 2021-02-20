@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% form_theme formulario 'bootstrap_4_layout.html.twig' %}
+{% block title %}Lineas Incidencias{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <div class="col-10">
+        <div class="container">
+            <h1 class="h3 mb-3 font-weight-normal">Formulario de Registro de Lineas Incidencia</h1>
+        {{ form(formulario) }}
+        </div>
+    </div>
+{% endblock %}

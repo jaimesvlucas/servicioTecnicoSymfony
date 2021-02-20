@@ -1,0 +1,56 @@
+{# empty Twig template #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Clientes{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <div class="col-10">
+        <div class="container-fluid">
+            <div class="row">
+                <div class='col-3 my-4'>
+                    <div class="card bg-light mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Cliente</div>
+                        <div class='card-body'>
+                            <img class="card-img-top" src="https://www.labicok.com/wp-content/uploads/2020/09/default-user-image.png" alt="Card image cap">
+                        </div>
+                        <div class="card-body">
+                          <h5 class="card-title">{{ cliente.nombre }} {{ cliente.apellidos }}</h5>
+                          <p class="card-text">Direccion: {{ cliente.direccion }}</p>
+                          <p class="card-text">Telefono: {{ cliente.tlf }}</p>
+                        </div>
+                      </div>
+                </div>
+                <div class="col-9">
+                    <h3>Lista de incidencias</h3>
+                     <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">titulo</th>
+                            <th scope="col">Fecha de creacion</th>
+                            <th scope="col">Informacion</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% for incidencia in incidencias %}
+                          <tr>
+                            <th scope="row"> {{ incidencia.id }} </th>
+                            <td>{{ incidencia.titulo }}</td>
+                            <td>{{ incidencia.fechacreacion.format('d/m/Y') }}</td>
+                            <td> <a class="btn btn-primary" href='{{ path('ver_incidencia', {id:incidencia.id}) }}'>Ver</a> </td>
+                            <td> <a class="btn btn-danger" href='{{ path('borrar_incidencia', {id:incidencia.id}) }}'>Borrar Incidencia</a> </td>
+                          </tr>
+                          {% else %}
+                            <th scope="row">No hay ninguna incidencia a la venta</th>
+                        {% endfor %}
+                        </tbody>
+                      </table>
+                    <div class="container-fluid">
+                        <a class="btn btn-primary" href="{{ path('insertar_incidencia',{id:cliente.id}) }}">Insertar Incidencia</a>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

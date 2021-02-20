@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Clientes{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <div class="col-10">
+    
+        <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Información</th>
+            <th scope="col">Borrar</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for cliente in clientes %}
+          <tr>
+            <th scope="row"> {{ cliente.id }} </th>
+            <td>{{ cliente.nombre }}</td>
+            <td>{{ cliente.tlf }}</td>
+            <td> <a class="btn btn-primary" href='{{ path("ver_cliente", {id:cliente.id}) }}'>Ver</a> </td>
+            <td> <a class="btn btn-danger" href='{{ path("borrar_cliente", {id:cliente.id}) }}'>Borrar cliente</a> </td>
+          </tr>
+          {% else %}
+            <th scope="row">No hay  ningún articulos a la venta</th>
+        {% endfor %}
+        </tbody>
+      </table>
+    <div style="clear:both"></div>
+    {% if app.user %}
+        <div class="container-fluid">
+             <a class="btn btn-primary" href="{{ path('insertar_cliente') }}">Insertar Cliente</a>
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}

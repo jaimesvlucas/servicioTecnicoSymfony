@@ -1,0 +1,57 @@
+{# empty Twig template #}
+{% extends 'base.html.twig' %}
+
+{% block title %}LineasIncidencias{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <div class="col-10">
+        <div class="container-fluid">
+            <div class="row">
+                <div class='col-3 my-4'>
+                    <div class="card bg-light mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Incidencia</div>
+                        <div class='card-body'>
+                            <img class="card-img-top" src="https://freepikpsd.com/wp-content/uploads/2019/10/engranaje-dibujo-png-1-Transparent-Images.png" alt="Card image cap">
+                        </div>
+                        <div class="card-body">
+                          <h5 class="card-title">{{ incidencia.titulo }}</h5>
+                          <p class="card-text">Fecha creacion: {{ incidencia.fechacreacion.format('d/m/Y') }}</p>
+                          <p class="card-text">Estado: {{ incidencia.estado }}</p>
+                          <p class="card-text">Usuario: {{ incidencia.usuario.nombre }}</p>
+                          <p class="card-text">Cliente: {{ incidencia.cliente.nombre }}</p>
+                        </div>
+                      </div>
+                </div>
+                <div class="col-9">
+                    <h3>Lista de lineas de incidencia</h3>
+                     <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">texto</th>
+                            <th scope="col">Fecha de creacion</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% for lineaIncidencia in lineasIncidencias %}
+                          <tr>
+                            <th scope="row"> {{ lineaIncidencia.id }} </th>
+                            <td>{{ lineaIncidencia.texto }}</td>
+                            <td>{{ incidencia.fechacreacion.format('d/m/Y') }}</td>
+                            <td> <a class="btn btn-primary" href="{{ path('editar_lineas_incidencia',{id:lineaIncidencia.id}) }}">Editar Linea incidencia</a> </td>
+                            <td> <a class="btn btn-danger" href='{{ path('borrar_lineas_incidencia',{id:lineaIncidencia.id}) }}'>Borrar Linea incidencia</a> </td>
+                          </tr>
+                          {% else %}
+                            <th scope="row">No hay ninguna linea de incidencia</th>
+                        {% endfor %}
+                        </tbody>
+                      </table>
+                    <div class="container-fluid">
+                        <a class="btn btn-primary" href="{{ path('insertar_lineas_incidencia',{id:incidencia.id}) }}">Insertar Linea incidencia</a>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
